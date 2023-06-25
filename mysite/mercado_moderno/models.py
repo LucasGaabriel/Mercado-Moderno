@@ -1,34 +1,42 @@
 from django.db import models
 
 class Produto(models.Model):
+    nome = models.CharField(max_length=100)
+    descricao = models.TextField()
     preco = models.DecimalField(max_digits=10, decimal_places=2)
-    descricao = models.CharField(max_length=100)
-    desconto = models.DecimalField(max_digits=5, decimal_places=2)
-    vendas = models.IntegerField()
-    estoque = models.IntegerField()
-
+    desconto = models.DecimalField(max_digits=10, decimal_places=2, default=0)
+    vendas = models.IntegerField(default=0)
+    estoque = models.IntegerField(default=0)
+    
 
 class Categoria(models.Model):
     Nome = models.CharField(max_length=50)
     produtos = models.ManyToManyField(to=Produto)
 
 
-class Carrinho(models.Model):
-    produtos = models.ManyToManyField(to=Produto)
-
-
 class Endereco(models.Model):
-    cep = models.DecimalField(max_digits=8, decimal_places=0)
+    cep = models.CharField(max_lenght=8)
     rua = models.CharField(max_length=50)
-    numero = models.DecimalField(max_digits=5, decimal_places=0)
+    numero = models.CharField(max_length=8)
+    bairro = models.CharField(max_length=50)
     cidade = models.CharField(max_length=50)
     estado = models.CharField(max_length=2)
 
 
-class Usuario(models.Model):
+class Cliente(models.Model):
     nome = models.CharField(max_length=100)
-    endereco = models.OneToOneField(to=Endereco)
+    cpf = models.CharField(max_length=11)
+    endereco = models.OneToOneField(to=Endereco, on_delete=models.SET_NULL, null=True)
+
+
+class Carrinho(models.Model):
+    cliente = models.OneToOneField(Cliente, on_delete=models.CASCADE)
+    produtos = models.ManyToManyField(to=Produto)
+    valor = models.DecimalField(max_digits=10, decimal_places=2)
 
 
 class Compra(models.Model):
-    compra = models.ForeignKey(to=Usuario)
+    cliente = models.ForeignKey(to=Cliente, on_delete=models.CASCADE)
+    produtos = models.ManyToManyField(to=Produto)
+    data = models.DateTimeField(auto_now=True)
+    valor = models.DecimalField(max_digits=10, decimal_places=2)
