@@ -15,7 +15,7 @@ class Categoria(models.Model):
 
 
 class Endereco(models.Model):
-    cep = models.CharField(max_lenght=8)
+    cep = models.CharField(max_length=8)
     rua = models.CharField(max_length=50)
     numero = models.CharField(max_length=8)
     bairro = models.CharField(max_length=50)
