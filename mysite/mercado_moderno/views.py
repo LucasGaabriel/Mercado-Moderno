@@ -3,7 +3,9 @@ from django.urls import reverse
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, PasswordChangeForm
 from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
+from django.views import generic
 from .models import Produto
 
 def index(request):
@@ -53,11 +55,10 @@ def alterar_senha(request):
 def home(request):
     return render(request, "mercado_moderno/home.html")
 
-@login_required
-def produtos(request):
-    produtos = Produto.objects.all()
-    context = { "produtos": produtos }
-    return render(request, "mercado_moderno/produtos.html", context)
+class ProdutosView(LoginRequiredMixin, generic.ListView):
+    model = Produto
+    template_name = 'mercado_moderno/produtos.html'
+    context_object_name = "produtos"
 
 @login_required
 def carrinho(request):

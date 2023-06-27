@@ -11,6 +11,6 @@ urlpatterns = [
     path("deslogar/", views.deslogar_usuario, name="deslogar"),
     path('alterar_senha/', views.alterar_senha, name='alterar_senha'),
     path("home/", views.home, name="home"),
-    path("produtos/", views.produtos, name="produtos"),
+    path("produtos/", views.ProdutosView.as_view(), name="produtos"),
     path("carrinho/", views.carrinho, name="carrinho"),
 ]
