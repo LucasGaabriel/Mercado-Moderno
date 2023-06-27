@@ -37,7 +37,7 @@ def deslogar_usuario(request):
     logout(request)
     return redirect('/')
 
-@login_required(login_url='/login')
+@login_required
 def alterar_senha(request):
     if request.method == "POST":
         form_senha = PasswordChangeForm(request.user, request.POST)
@@ -49,16 +49,16 @@ def alterar_senha(request):
         form_senha = PasswordChangeForm(request.user)
     return render(request, 'mercado_moderno/alterar_senha.html', {'form_senha': form_senha})
 
-@login_required(login_url='/login')
+@login_required
 def home(request):
     return render(request, "mercado_moderno/home.html")
 
-@login_required(login_url='/login')
+@login_required
 def produtos(request):
     produtos = Produto.objects.all()
     context = { "produtos": produtos }
     return render(request, "mercado_moderno/produtos.html", context)
 
-@login_required(login_url='/login')
+@login_required
 def carrinho(request):
     return HttpResponse("Você está vendo a página com o seu carrinho, contendo todos os seus produtos desejados!")
