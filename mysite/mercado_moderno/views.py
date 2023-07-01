@@ -60,6 +60,9 @@ class ProdutosView(LoginRequiredMixin, generic.ListView):
     template_name = 'mercado_moderno/produtos.html'
     context_object_name = "produtos"
 
+    def get_queryset(self):
+        return Produto.objects.all()
+
 @login_required
 def carrinho(request):
     return HttpResponse("Você está vendo a página com o seu carrinho, contendo todos os seus produtos desejados!")

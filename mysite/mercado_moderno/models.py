@@ -11,6 +11,12 @@ class Produto(models.Model):
     def __str__(self):
         return self.nome
     
+    def possuiEstoque(self):
+        if self.estoque > 0:
+            return True
+        else:
+            return False
+    
 
 class Categoria(models.Model):
     Nome = models.CharField(max_length=50)
