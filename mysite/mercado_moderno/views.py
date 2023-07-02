@@ -8,8 +8,8 @@ from django.contrib.auth.decorators import login_required
 from django.views import generic
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework import status
-from rest_framework import permissions
+from rest_framework.decorators import api_view
+from rest_framework import status, permissions
 from .serializers import *
 from .models import *
 
@@ -68,8 +68,43 @@ class ProdutosView(LoginRequiredMixin, generic.ListView):
     def get_queryset(self):
         return Produto.objects.all()
 
-class ProdutoListAPIView(APIView):
-    def get(self, request):
-        produtos = Produto.objects.all()
-        serializer = ProdutoSerializer(produtos, many=True)
-        return Response(serializer.data, status=status.HTTP_200_OK)
+# @api_view(['GET'])
+# class ProdutoListAPIView(APIView):
+#     def get(self, request):
+#         produtos = Produto.objects.all()
+#         serializer = ProdutoSerializer(produtos, many=True)
+#         return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+@api_view(['GET'])
+def produtoList(request):
+    produtos = Produto.objects.all()
+    serializer = ProdutoSerializer(produtos, many=True)
+    return Response(serializer.data)
+
+@api_view(['GET'])
+def produtoDetail(request, pk):
+    produto = Produto.objects.get(id=pk)
+    serializer = ProdutoSerializer(produto, many=False)
+    return Response(serializer.data)
+
+@api_view(['POST'])
+def produtoCreate(request):
+    serializer = ProdutoSerializer(data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+    return Response(serializer.data)
+
+@api_view(['POST'])
+def produtoUpdate(request, pk):
+    produto = Produto.objects.get(id=pk)
+    serializer = ProdutoSerializer(instance=produto, data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+    return Response(serializer.data)
+
+@api_view(['DELETE'])
+def produtoDelete(request, pk):
+    produto = Produto.objects.get(id=pk)
+    produto.delete()
+    return Response("Produto deletado com sucesso!")
