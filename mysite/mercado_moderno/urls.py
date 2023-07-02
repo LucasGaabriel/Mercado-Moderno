@@ -14,9 +14,9 @@ urlpatterns = [
     path("produtos/", views.ProdutosView.as_view(), name="produtos"),
 
     # REST API
-    path("produto-list/", views.produtoList, name="produto-list"),
-    path("produto-detail/<str:pk>/", views.produtoDetail, name="produto-detail"),
-    path("produto-create/", views.produtoCreate, name="produto-create"),
-    path("produto-update/<str:pk>/", views.produtoUpdate, name="produto-update"),
-    path("produto-delete/<str:pk>/", views.produtoDelete, name="produto-delete"),
+    path("api/produto-list/", views.produtoList, name="produto-list"),
+    path("api/produto-detail/<str:pk>/", views.produtoDetail, name="produto-detail"),
+    path("api/produto-create/", views.produtoCreate, name="produto-create"),
+    path("api/produto-update/<str:pk>/", views.produtoUpdate, name="produto-update"),
+    path("api/produto-delete/<str:pk>/", views.produtoDelete, name="produto-delete"),
 ]
