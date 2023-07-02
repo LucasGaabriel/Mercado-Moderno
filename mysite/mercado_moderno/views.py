@@ -16,65 +16,39 @@ from .models import *
 def index(request):
     return render(request, "mercado_moderno/index.html")
 
+@api_view(['POST'])
 def cadastrar_usuario(request):
-    if request.method == "POST":
-        form_usuario = UserCreationForm(request.POST)
-        if form_usuario.is_valid():
-            form_usuario.save()
-            return redirect('/')
-    else:
-        form_usuario = UserCreationForm()
-    return render(request, 'mercado_moderno/cadastro.html', {'form_usuario': form_usuario})
+    serializer = UserSerializer(data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+@api_view(['POST'])
 def logar_usuario(request):
-    if request.method == "POST":
-        username = request.POST["username"]
-        password = request.POST["password"]
-        usuario = authenticate(request, username=username, password=password)
-        if usuario is not None:
-            login(request, usuario)
-            return redirect("/home")
-        else:
-            form_login = AuthenticationForm()
+    username = request.data.get("username")
+    password = request.data.get("password")
+    usuario = authenticate(request, username=username, password=password)
+    if usuario is not None:
+        login(request, usuario)
+        return Response({"message": "Usuário logado com sucesso."}, status=status.HTTP_200_OK)
     else:
-        form_login = AuthenticationForm()
-    return render(request, 'mercado_moderno/login.html', {'form_login': form_login})
+        return Response({"message": "Nome de usuário ou senha incorretos."}, status=status.HTTP_400_BAD_REQUEST)
 
+@api_view(['POST'])
 def deslogar_usuario(request):
     logout(request)
-    return redirect('/')
+    return Response({"message": "Usuário deslogado com sucesso."}, status=status.HTTP_200_OK)
 
-@login_required
+@api_view(['POST'])
 def alterar_senha(request):
-    if request.method == "POST":
-        form_senha = PasswordChangeForm(request.user, request.POST)
-        if form_senha.is_valid():
-            user = form_senha.save()
-            update_session_auth_hash(request, user)
-            return redirect('/home')
+    form_senha = PasswordChangeForm(request.user, request.data)
+    if form_senha.is_valid():
+        user = form_senha.save()
+        update_session_auth_hash(request, user)
+        return Response({"message": "Senha alterada com sucesso."}, status=status.HTTP_200_OK)
     else:
-        form_senha = PasswordChangeForm(request.user)
-    return render(request, 'mercado_moderno/alterar_senha.html', {'form_senha': form_senha})
-
-@login_required
-def home(request):
-    return render(request, "mercado_moderno/home.html")
-
-class ProdutosView(LoginRequiredMixin, generic.ListView):
-    model = Produto
-    template_name = 'mercado_moderno/produtos.html'
-    context_object_name = "produtos"
-
-    def get_queryset(self):
-        return Produto.objects.all()
-
-# @api_view(['GET'])
-# class ProdutoListAPIView(APIView):
-#     def get(self, request):
-#         produtos = Produto.objects.all()
-#         serializer = ProdutoSerializer(produtos, many=True)
-#         return Response(serializer.data, status=status.HTTP_200_OK)
-
+        return Response(form_senha.errors, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['GET'])
 def produtoList(request):
