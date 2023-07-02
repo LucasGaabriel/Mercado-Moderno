@@ -6,7 +6,12 @@ from django.contrib.auth import authenticate, login, logout, update_session_auth
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
 from django.views import generic
-from .models import Produto
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status
+from rest_framework import permissions
+from .serializers import *
+from .models import *
 
 def index(request):
     return render(request, "mercado_moderno/index.html")
@@ -63,6 +68,8 @@ class ProdutosView(LoginRequiredMixin, generic.ListView):
     def get_queryset(self):
         return Produto.objects.all()
 
-@login_required
-def carrinho(request):
-    return HttpResponse("Você está vendo a página com o seu carrinho, contendo todos os seus produtos desejados!")
+class ProdutoListAPIView(APIView):
+    def get(self, request):
+        produtos = Produto.objects.all()
+        serializer = ProdutoSerializer(produtos, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
