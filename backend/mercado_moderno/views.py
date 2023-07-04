@@ -8,7 +8,7 @@ from django.contrib.auth.decorators import login_required
 from django.views import generic
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, action
 from rest_framework import status, permissions, viewsets
 from .serializers import *
 from .models import *
@@ -54,35 +54,30 @@ class ProdutosView(viewsets.ModelViewSet):
     serializer_class = ProdutoSerializer
     queryset = Produto.objects.all()
 
+
 # @api_view(['GET'])
-# def produtoList(request):
-#     produtos = Produto.objects.all()
-#     serializer = ProdutoSerializer(produtos, many=True)
+# def produtoDetail(request, pk):
+#     produto = Produto.objects.get(id=pk)
+#     serializer = ProdutoSerializer(produto, many=False)
 #     return Response(serializer.data)
 
-@api_view(['GET'])
-def produtoDetail(request, pk):
-    produto = Produto.objects.get(id=pk)
-    serializer = ProdutoSerializer(produto, many=False)
-    return Response(serializer.data)
+# @api_view(['POST'])
+# def produtoCreate(request):
+#     serializer = ProdutoSerializer(data=request.data)
+#     if serializer.is_valid():
+#         serializer.save()
+#     return Response(serializer.data)
 
-@api_view(['POST'])
-def produtoCreate(request):
-    serializer = ProdutoSerializer(data=request.data)
-    if serializer.is_valid():
-        serializer.save()
-    return Response(serializer.data)
+# @api_view(['POST'])
+# def produtoUpdate(request, pk):
+#     produto = Produto.objects.get(id=pk)
+#     serializer = ProdutoSerializer(instance=produto, data=request.data)
+#     if serializer.is_valid():
+#         serializer.save()
+#     return Response(serializer.data)
 
-@api_view(['POST'])
-def produtoUpdate(request, pk):
-    produto = Produto.objects.get(id=pk)
-    serializer = ProdutoSerializer(instance=produto, data=request.data)
-    if serializer.is_valid():
-        serializer.save()
-    return Response(serializer.data)
-
-@api_view(['DELETE'])
-def produtoDelete(request, pk):
-    produto = Produto.objects.get(id=pk)
-    produto.delete()
-    return Response("Produto deletado com sucesso!")
+# @api_view(['DELETE'])
+# def produtoDelete(request, pk):
+#     produto = Produto.objects.get(id=pk)
+#     produto.delete()
+#     return Response("Produto deletado com sucesso!")
