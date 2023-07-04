@@ -26,6 +26,6 @@ router.register('produtos', views.ProdutosView, 'produtos')
 urlpatterns = [
     path("", include("mercado_moderno.urls")),
     path("api/", include(router.urls)),
-    path('api/accounts/', include('authemail.urls')),
+    path("api/accounts/", include("authemail.urls")),
     path("admin/", admin.site.urls)
 ]
