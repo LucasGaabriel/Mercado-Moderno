@@ -9,7 +9,7 @@ from django.views import generic
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
-from rest_framework import status, permissions
+from rest_framework import status, permissions, viewsets
 from .serializers import *
 from .models import *
 
@@ -50,11 +50,15 @@ def alterar_senha(request):
     else:
         return Response(form_senha.errors, status=status.HTTP_400_BAD_REQUEST)
 
-@api_view(['GET'])
-def produtoList(request):
-    produtos = Produto.objects.all()
-    serializer = ProdutoSerializer(produtos, many=True)
-    return Response(serializer.data)
+class ProdutosView(viewsets.ModelViewSet):
+    serializer_class = ProdutoSerializer
+    queryset = Produto.objects.all()
+
+# @api_view(['GET'])
+# def produtoList(request):
+#     produtos = Produto.objects.all()
+#     serializer = ProdutoSerializer(produtos, many=True)
+#     return Response(serializer.data)
 
 @api_view(['GET'])
 def produtoDetail(request, pk):
