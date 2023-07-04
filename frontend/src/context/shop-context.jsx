@@ -1,15 +1,25 @@
 import React, { createContext, useState } from "react";
 import { PRODUCTS } from "../products";
+import Axios from "axios";
 
 export const ShopContext = createContext(null)
 
-// Usar o ID do Product -------------------------------
 const getDefaultCart = () => {
     let cart = {}
     for (let i=0; i< PRODUCTS.length; i++) {
-        cart[PRODUCTS[i].id] = {...PRODUCTS[i], qtt_cart: 0 };
-        console.log(cart[PRODUCTS[i].id].productName)
+        cart[PRODUCTS[i].id] = 0;
     }
+
+    ///============Test AXIOS=======================////
+
+    Axios.get("http://127.0.0.1:8080/api/produtos").then(
+        (response) => {
+            console.log(response);
+        }
+    );
+
+    ///=============================================////
+
     return cart;
 }
 
@@ -17,14 +27,14 @@ export const ShopContextProvider = (props) => {
     const [cartItems, setCartItems] = useState(getDefaultCart())
 
     const addToCart = (itemId) => {
-        setCartItems((prev) => ({ ...prev, [itemId]: {...prev[itemId], qtt_cart: qtt_cart + 1}}));
+        setCartItems((prev) => ({ ...prev, [itemId]: prev[itemId] + 1}))
     }
     const removeFromCart = (itemId) => {
-        setCartItems((prev) => ({ ...prev, [itemId]: prev[itemId].qtt_cart - 1}));
+        setCartItems((prev) => ({ ...prev, [itemId]: prev[itemId] - 1}))
     }
 
     const updateCartItemCount = (newAmount, itemId) => {
-        setCartItems((prev) => ({ ...prev, [itemId]: prev[itemId].qtt_cartnewAmount }));
+        setCartItems((prev) => ({ ...prev, [itemId]: newAmount}))
     };
 
     const getTotalCartAmount = () => {
