@@ -7,7 +7,8 @@ export const ShopContext = createContext(null)
 const getDefaultCart = () => {
     let cart = {}
     for (let i=0; i< PRODUCTS.length; i++) {
-        cart[i] = 0;
+        cart[PRODUCTS[i].id] = {...PRODUCTS[i], qtt_cart: 0 };
+        console.log(cart[PRODUCTS[i].id].productName)
     }
     return cart;
 }
@@ -16,15 +17,14 @@ export const ShopContextProvider = (props) => {
     const [cartItems, setCartItems] = useState(getDefaultCart())
 
     const addToCart = (itemId) => {
-        setCartItems((prev) => ({ ...prev, [itemId]: prev[itemId] +1}))
+        setCartItems((prev) => ({ ...prev, [itemId]: {...prev[itemId], qtt_cart: qtt_cart + 1}}));
     }
     const removeFromCart = (itemId) => {
-        setCartItems((prev) => ({ ...prev, [itemId]: prev[itemId] -1}))
+        setCartItems((prev) => ({ ...prev, [itemId]: prev[itemId].qtt_cart - 1}));
     }
 
-
     const updateCartItemCount = (newAmount, itemId) => {
-        setCartItems((prev) => ({ ...prev, [itemId]: newAmount }));
+        setCartItems((prev) => ({ ...prev, [itemId]: prev[itemId].qtt_cartnewAmount }));
     };
 
     const getTotalCartAmount = () => {
