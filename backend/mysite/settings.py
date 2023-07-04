@@ -31,7 +31,6 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'mercado_moderno.apps.MercadoModernoConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -39,8 +38,21 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'rest_framework.authtoken',
+    'mercado_moderno.apps.MercadoModernoConfig',
+    'authemail',
     'corsheaders',
 ]
+
+AUTH_USER_MODEL = 'mercado_moderno.Usuario'
+
+REST_FRAMEWORK = {
+	'DEFAULT_AUTHENTICATION_CLASSES': (
+		'rest_framework.authentication.TokenAuthentication',
+	)
+}
+
+AUTH_EMAIL_VERIFICATION = False
 
 CORS_ORIGIN_WHITELIST = [
     'http://localhost:3000'
