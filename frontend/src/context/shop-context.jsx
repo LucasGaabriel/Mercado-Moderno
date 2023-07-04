@@ -1,5 +1,6 @@
 import React, { createContext, useState } from "react";
 import { PRODUCTS } from "../products";
+import Axios from "axios";
 
 export const ShopContext = createContext(null)
 
@@ -8,6 +9,17 @@ const getDefaultCart = () => {
     for (let i=0; i< PRODUCTS.length; i++) {
         cart[PRODUCTS[i].id] = 0;
     }
+
+    ///============Test AXIOS=======================////
+
+    Axios.get("http://127.0.0.1:8080/api/produtos").then(
+        (response) => {
+            console.log(response);
+        }
+    );
+
+    ///=============================================////
+
     return cart;
 }
 
