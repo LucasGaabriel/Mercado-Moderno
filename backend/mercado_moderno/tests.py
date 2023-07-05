@@ -14,10 +14,11 @@ class AccountsTestCase(APITestCase):
         data = {
             "email": "user@example-email.com",
             "password": "verysecret",
+            "first_name": "João",
+            "last_name": "Cézar"
         }
 
         response = self.client.post(self.register_url, data)
-        print("RESPOSTA:", response.json())
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
 
 

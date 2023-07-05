@@ -53,6 +53,9 @@ REST_FRAMEWORK = {
 	)
 }
 
+# Autenticação por email é necessária?
+# Se True, precisa fazer verificação
+# Se False, a verificação é feita de forma automática
 AUTH_EMAIL_VERIFICATION = False
 
 EMAIL_FROM = os.environ.get('AUTHEMAIL_DEFAULT_EMAIL_FROM')
@@ -60,8 +63,8 @@ EMAIL_BCC = os.environ.get('AUTHEMAIL_DEFAULT_EMAIL_BCC')
 
 EMAIL_HOST = os.environ.get('AUTHEMAIL_EMAIL_HOST') or 'smtp.gmail.com'
 EMAIL_PORT = os.environ.get('AUTHEMAIL_EMAIL_PORT') or 587
-EMAIL_HOST_USER = os.environ.get('AUTHEMAIL_EMAIL_HOST_USER')
-EMAIL_HOST_PASSWORD = os.environ.get('AUTHEMAIL_EMAIL_HOST_PASSWORD')
+EMAIL_HOST_USER = os.environ.get('AUTHEMAIL_EMAIL_HOST_USER') or 'lucas.go.costa.teste@gmail.com'
+EMAIL_HOST_PASSWORD = os.environ.get('AUTHEMAIL_EMAIL_HOST_PASSWORD') or 'ltuequnuswzatklt'
 EMAIL_USE_TLS = True
 EMAIL_USE_SSL = False
 
