@@ -39,14 +39,23 @@ class Carrinho(models.Model):
             total += item.produto.preco * item.quantidade
         return total
     
+    def quantidade_produtos(self):
+        total = 0
+        itens_carrinho = ItemCarrinho.objects.filter(carrinho=self)
+        for item in itens_carrinho:
+            total += item.quantidade
+        return total
+    
 
 class ItemCarrinho(models.Model):
     """Modelo para armazenar informações de quantidade de cada produto do carrinho"""
     carrinho = models.ForeignKey(Carrinho, on_delete=models.CASCADE)
     produto = models.ForeignKey(Produto, on_delete=models.CASCADE)
     quantidade = models.PositiveIntegerField(default=1)
-            
 
+    def get_extra_actions():
+        return []
+            
 
 class Compra(models.Model):
     usuario = models.ForeignKey(to=Usuario, on_delete=models.CASCADE)

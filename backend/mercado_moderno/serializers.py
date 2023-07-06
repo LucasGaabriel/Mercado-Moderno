@@ -14,7 +14,17 @@ class UserSerializer(serializers.ModelSerializer):
         model = User
         fields = ['id', 'username', 'password']
 
+class ItemCarrinhoSerializer(serializers.ModelSerializer):
+    produto = ProdutoSerializer()
+    
+    class Meta:
+        model = ItemCarrinho
+        fields = ('produto', 'quantidade')
+
 class CarrinhoSerializer(serializers.ModelSerializer):
+    items = ItemCarrinhoSerializer(many=True, read_only=True)
+
     class Meta:
         model = Carrinho
         fields = '__all__'
+

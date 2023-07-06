@@ -29,3 +29,7 @@ class ProdutosView(viewsets.ModelViewSet):
 class CarrinhoView(viewsets.ModelViewSet):
     serializer_class = CarrinhoSerializer
     queryset = Carrinho.objects.all()
+
+class ItemCarrinhoView(viewsets.ModelViewSet):
+    serializer_class = ItemCarrinhoSerializer
+    queryset = ItemCarrinho.objects.all()

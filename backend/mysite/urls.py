@@ -25,6 +25,7 @@ router = routers.DefaultRouter()
 
 router.register('produtos', views.ProdutosView)
 router.register('carrinhos', views.CarrinhoView)
+router.register('itemcarrinho', views.ItemCarrinho, basename='itemcarrinho')
 
 urlpatterns = [
     path("", include("mercado_moderno.urls")),
