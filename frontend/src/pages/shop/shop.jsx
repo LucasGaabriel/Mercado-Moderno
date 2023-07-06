@@ -14,7 +14,7 @@ export const Shop = () => {
                 setProducts(response.data);
         });
     }, []);
-    console.log(products);
+    //console.log(products);
 
     return <div className="shop">
         <div className="shopTitle">

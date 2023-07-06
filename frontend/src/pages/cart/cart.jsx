@@ -20,7 +20,7 @@ export const Cart = () => {
                 setProducts(response.data);
         });
     }, []);
-    console.log(products);
+    //console.log(products);
 
 
 
