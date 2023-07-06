@@ -12,14 +12,12 @@ export const ShopContextProvider = (props) => {
     
     let cart = {};
     useEffect(() => {
-        axios.get("http://127.0.0.1:8080/api/produtos/").then((response) => {
+        axios.get("http://127.0.0.1:8000/api/produtos/").then((response) => {
                 setProducts(response.data);
                 response.data.map((item) => cart[item.id] = 0);
                 setCartItems(cart);
         });
     }, []);
-    console.log("hello", cartItems);
-    console.log("ola", products);
 
     const addToCart = (itemId) => {
         setCartItems((prev) => ({ ...prev, [itemId]: prev[itemId] + 1}))

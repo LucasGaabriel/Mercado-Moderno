@@ -15,7 +15,7 @@ export const Cart = () => {
             <h1> Your Cart Items</h1>
         </div>
         <div className="cartItems">
-            {products.map((product) => /* cartItems[product.id] > 0 && */ <CartItem data={product}/>)}
+            {products.map((product) => cartItems[product.id] > 0 && <CartItem data={product}/>)}
         </div>
 
         { totalAmount > 0 ? (
@@ -25,7 +25,7 @@ export const Cart = () => {
                     <button> Checkout</button>
             </div>
         ) : (
-            <h1> Your Cart is Empty ({totalAmount})</h1> 
+            <h1> Your Cart is Empty </h1> 
         )}
     </div>
 }
