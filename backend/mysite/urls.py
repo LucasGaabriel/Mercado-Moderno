@@ -23,7 +23,8 @@ from mysite import settings
 
 router = routers.DefaultRouter()
 
-router.register('produtos', views.ProdutosView, 'produtos')
+router.register('produtos', views.ProdutosView)
+router.register('carrinhos', views.CarrinhoView)
 
 urlpatterns = [
     path("", include("mercado_moderno.urls")),

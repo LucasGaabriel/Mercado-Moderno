@@ -25,3 +25,7 @@ def index(request):
 class ProdutosView(viewsets.ModelViewSet):
     serializer_class = ProdutoSerializer
     queryset = Produto.objects.all()
+
+class CarrinhoView(viewsets.ModelViewSet):
+    serializer_class = CarrinhoSerializer
+    queryset = Carrinho.objects.all()

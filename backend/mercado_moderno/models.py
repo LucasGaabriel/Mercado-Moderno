@@ -30,8 +30,22 @@ class Usuario(EmailAbstractUser):
 
 class Carrinho(models.Model):
     usuario = models.OneToOneField(Usuario, on_delete=models.CASCADE)
-    produtos = models.ManyToManyField(to=Produto)
-    valor = models.DecimalField(max_digits=10, decimal_places=2)
+    produtos = models.ManyToManyField(to=Produto, through='ItemCarrinho')
+
+    def valor_total(self):
+        total = 0
+        itens_carrinho = ItemCarrinho.objects.filter(carrinho=self)
+        for item in itens_carrinho:
+            total += item.produto.preco * item.quantidade
+        return total
+    
+
+class ItemCarrinho(models.Model):
+    """Modelo para armazenar informações de quantidade de cada produto do carrinho"""
+    carrinho = models.ForeignKey(Carrinho, on_delete=models.CASCADE)
+    produto = models.ForeignKey(Produto, on_delete=models.CASCADE)
+    quantidade = models.PositiveIntegerField(default=1)
+            
 
 
 class Compra(models.Model):
