@@ -12,7 +12,7 @@ const getDefaultCart = () => {
 
     ///============Test AXIOS=======================////
 
-    Axios.get("http://127.0.0.1:8080/api/produtos").then(
+    Axios.get("http://127.0.0.1:8080/api/produtos/").then(
         (response) => {
             console.log(response);
         }
