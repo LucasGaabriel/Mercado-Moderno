@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import { React, useContext } from "react";
 import { ShopContext } from "../../context/shop-context"; 
 
 export const Product = (props) => {
@@ -14,7 +14,7 @@ export const Product = (props) => {
             <p>${preco}</p>
         </div>
         <button className="addToCartBtn" onClick={() => addToCart(id)}>
-            Add To Cart {estoque > 0 && <> ({estoque})</>}
+            Add To Cart {estoque > 0 && <> ({cartItems[id]})</>}
         </button>
     </div>
 }

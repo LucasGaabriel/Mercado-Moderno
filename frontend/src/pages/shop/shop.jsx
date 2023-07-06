@@ -1,20 +1,10 @@
-import axios from "axios";
-import React from "react";
-import { useEffect } from "react";
-import { useState } from "react";
-import { PRODUCTS } from "../../products";
+import { React, useEffect, useState, useContext } from "react";
+import { ShopContext } from "../../context/shop-context";
 import { Product } from "./product";
 import "./shop.css"
 
 export const Shop = () => {
-    const [products, setProducts] = useState([]);
-    
-    useEffect(() => {
-        axios.get("http://127.0.0.1:8000/api/produtos/").then((response) => {
-                setProducts(response.data);
-        });
-    }, []);
-    //console.log(products);
+    const { cartItems, products, addToCart, removeFromCart, updateCartItemCount} = useContext(ShopContext);
 
     return <div className="shop">
         <div className="shopTitle">
