@@ -18,15 +18,17 @@ export const ShopContextProvider = (props) => {
                 setCartItems(cart);
         });
     }, []);
-
+    //
     const findProduct = (id) => {
-        return products.find((p) => p.id = Number(id))
+        return products.find((p) => p.id === Number(id))
     }
     const addToCart = (itemId) => {
+        console.log("Antes",itemId, cartItems, products);
         cartItems[itemId] < findProduct(itemId)?.estoque ?
             setCartItems((prev) => ({ ...prev, [itemId]: prev[itemId] + 1}))
         : 
             console.log("Limite de items no estoque atingido!");
+        console.log("Depois", itemId, cartItems, products);
     }
     const removeFromCart = (itemId) => {
         cartItems[itemId] > 0 &&
@@ -50,6 +52,7 @@ export const ShopContextProvider = (props) => {
     const checkout = () => {
         products.map((p) => {
             p.estoque -= cartItems[p.id];
+            p.vendas += cartItems[p.id];
             setCartItems((prev) => ({...prev, [p.id]: 0}));
             return p;
         })
