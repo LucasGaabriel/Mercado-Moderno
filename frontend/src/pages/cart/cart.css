@@ -41,3 +41,16 @@
   margin: 10px;
   cursor: pointer;
 }
+
+/* Hide the input number arrows button
+/  for chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* ... for Firefox */
+input[type="number"] {
+  -moz-appearance: textfield;
+}

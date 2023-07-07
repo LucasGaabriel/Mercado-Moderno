@@ -19,16 +19,42 @@ export const ShopContextProvider = (props) => {
         });
     }, []);
 
+    const findProduct = (id) => {
+        return products.find((p) => p.id = Number(id))
+    }
     const addToCart = (itemId) => {
-        setCartItems((prev) => ({ ...prev, [itemId]: prev[itemId] + 1}))
+        cartItems[itemId] < findProduct(itemId)?.estoque ?
+            setCartItems((prev) => ({ ...prev, [itemId]: prev[itemId] + 1}))
+        : 
+            console.log("Limite de items no estoque atingido!");
     }
     const removeFromCart = (itemId) => {
-        setCartItems((prev) => ({ ...prev, [itemId]: prev[itemId] - 1}))
+        cartItems[itemId] > 0 &&
+            setCartItems((prev) => ({ ...prev, [itemId]: prev[itemId] - 1}))
+        cartItems[itemId] == 1 &&
+            console.log(`${findProduct(itemId)?.nome} removido(a) do carrinho`);
     }
 
     const updateCartItemCount = (newAmount, itemId) => {
-        setCartItems((prev) => ({ ...prev, [itemId]: newAmount}))
+        let amount = Number(newAmount);
+        let estoque = findProduct(itemId)?.estoque;
+
+        if (amount > estoque)
+            amount = estoque;
+        else if(amount < 0)
+            amount = 0;
+            
+        setCartItems((prev) => ({ ...prev, [itemId]: amount}))
     };
+
+    const checkout = () => {
+        products.map((p) => {
+            p.estoque -= cartItems[p.id];
+            setCartItems((prev) => ({...prev, [p.id]: 0}));
+            return p;
+        })
+        setProducts(products);
+    }
 
     const getTotalCartAmount = () => {
         let totalAmount = 0;
@@ -43,7 +69,7 @@ export const ShopContextProvider = (props) => {
         return totalAmount;
     }
 
-    const contextValue = {cartItems, products, addToCart, removeFromCart, updateCartItemCount, getTotalCartAmount}
+    const contextValue = {cartItems, products, addToCart, removeFromCart, checkout, updateCartItemCount, getTotalCartAmount}
     
     return <ShopContext.Provider value={contextValue}>
         {props.children}

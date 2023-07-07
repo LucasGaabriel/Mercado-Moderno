@@ -11,7 +11,7 @@ export const Shop = () => {
             <h1>Mercado Moderno</h1>
         </div>
         <div className="products">
-            {products.map((product) => <Product data={product} />)}
+            {products.map((prod) => /*prod.estoque > 0 &&*/ <Product data={prod} />)}
         </div>
     </div>
 }

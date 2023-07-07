@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import "./cart.css"
 
 export const Cart = () => {
-    const { cartItems, products, getTotalCartAmount } = useContext(ShopContext);
+    const { cartItems, products, checkout, getTotalCartAmount } = useContext(ShopContext);
     const navigate = useNavigate();
 
     let totalAmount = getTotalCartAmount();
@@ -15,14 +15,14 @@ export const Cart = () => {
             <h1> Your Cart Items</h1>
         </div>
         <div className="cartItems">
-            {products.map((product) => cartItems[product.id] > 0 && <CartItem data={product}/>)}
+            {products.map((product) => /*cartItems[product.id] > 0 &&*/ <CartItem data={product}/>)}
         </div>
 
         { totalAmount > 0 ? (
             <div className="checkout">
                     <p> Subtotal: ${totalAmount}</p>
                     <button onClick={() => navigate("/")}> Continue Shopping</button>
-                    <button> Checkout</button>
+                    <button onClick={checkout}> Checkout</button>
             </div>
         ) : (
             <h1> Your Cart is Empty </h1> 
