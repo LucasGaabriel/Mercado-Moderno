@@ -1,0 +1,21 @@
+[tool.poetry]
+name = "mercado-moderno"
+version = "0.1.0"
+description = ""
+authors = ["Lucas Gabriel <lucasgabriiel.oliveira@gmail.com>"]
+readme = "README.md"
+packages = [{include = "mercado_moderno"}]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+Django = "^4.2.3"
+djangorestframework = "^3.14.0"
+django-rest-authemail = "^2.1.7"
+django-cors-headers = "^4.1.0"
+drf-yasg = "^1.21.6"
+Pillow = "^10.0.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
