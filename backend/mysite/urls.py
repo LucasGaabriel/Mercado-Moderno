@@ -25,11 +25,11 @@ router = routers.DefaultRouter()
 
 router.register('produtos', views.ProdutosView)
 router.register('carrinhos', views.CarrinhoView)
-router.register('itemcarrinho', views.ItemCarrinho, basename='itemcarrinho')
 
 urlpatterns = [
     path("", include("mercado_moderno.urls")),
     path("api/", include(router.urls)),
     path("api/accounts/", include("authemail.urls")),
+    path('api/carrinhos/<str:pk>/produtos/', views.Produtos_Carrinho),
     path("admin/", admin.site.urls)
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

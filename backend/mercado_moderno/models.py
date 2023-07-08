@@ -53,9 +53,6 @@ class ItemCarrinho(models.Model):
     produto = models.ForeignKey(Produto, on_delete=models.CASCADE)
     quantidade = models.PositiveIntegerField(default=1)
 
-    def get_extra_actions():
-        return []
-            
 
 class Compra(models.Model):
     usuario = models.ForeignKey(to=Usuario, on_delete=models.CASCADE)

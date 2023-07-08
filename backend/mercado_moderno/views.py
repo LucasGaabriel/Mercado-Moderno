@@ -1,21 +1,6 @@
-from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
-from django.urls import reverse, reverse_lazy
-from django.shortcuts import render, get_object_or_404, redirect
-from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, PasswordChangeForm
-from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
-from django.contrib.auth.mixins import LoginRequiredMixin
-from django.contrib.auth.decorators import login_required
-from django.views import View, generic
-from django.views.generic import TemplateView
-from authemail.views import Signup
-from django.contrib.auth import get_user_model
-from rest_framework.views import APIView
-from rest_framework.response import Response
-from rest_framework.decorators import api_view, action
-from rest_framework import status, permissions, viewsets
-from authemail import wrapper
-from django import forms
-from django.forms.forms import NON_FIELD_ERRORS
+from django.http import JsonResponse
+from django.shortcuts import render, get_object_or_404
+from rest_framework import viewsets
 from .serializers import *
 from .models import *
 
@@ -23,13 +8,18 @@ def index(request):
     return render(request, "mercado_moderno/index.html")
 
 class ProdutosView(viewsets.ModelViewSet):
+    """View para visualização de todos os Produtos"""
     serializer_class = ProdutoSerializer
     queryset = Produto.objects.all()
 
 class CarrinhoView(viewsets.ModelViewSet):
+    """View para visualização de todos os Carrinhos"""
     serializer_class = CarrinhoSerializer
     queryset = Carrinho.objects.all()
 
-class ItemCarrinhoView(viewsets.ModelViewSet):
-    serializer_class = ItemCarrinhoSerializer
-    queryset = ItemCarrinho.objects.all()
+def Produtos_Carrinho(request, pk):
+    """View para retornar um JSON com todos os produtos de um carrinho de um usuário com id=pk"""
+    itens_carrinho = ItemCarrinho.objects.filter(carrinho__usuario__id=pk)
+    serializer = ItemCarrinhoSerializer(itens_carrinho, many=True)
+    JSON_data = serializer.data
+    return JsonResponse(JSON_data, safe=False)
