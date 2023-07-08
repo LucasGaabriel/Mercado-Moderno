@@ -17,19 +17,53 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import  include, path
 from django.conf.urls.static import static
-from rest_framework import routers
+from rest_framework import routers, permissions
 from mercado_moderno import views
 from mysite import settings
+from drf_yasg.views import get_schema_view
+from drf_yasg import openapi
 
+# Criação do router para a API do Django Rest Framework
 router = routers.DefaultRouter()
-
 router.register('produtos', views.ProdutosView)
 router.register('carrinhos', views.CarrinhoView)
 
+# Configuração da documentação gerada pelo 'drf-yasg'
+schema_view = get_schema_view(
+    openapi.Info(
+        title="Snippets API",
+        default_version='v1',
+        description="Test description",
+        terms_of_service="https://www.google.com/policies/terms/",
+        contact=openapi.Contact(email="contact@snippets.local"),
+        license=openapi.License(name="BSD License"),
+    ),
+    public=True,
+    permission_classes=(permissions.AllowAny,),
+)
+
 urlpatterns = [
+    # URLs do Mercado Moderno
     path("", include("mercado_moderno.urls")),
+
+    # URLs da documentação da API
+    path('swagger<format>/', schema_view.without_ui(cache_timeout=0), name='schema-json'),
+    path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
+    path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
+
+    # URLs da API do Django Rest Framework
     path("api/", include(router.urls)),
+
+    # URLs de Autenticação
     path("api/accounts/", include("authemail.urls")),
+
+    # URLs referente ao Produtos dos Carrinhos
     path('api/carrinhos/<str:pk>/produtos/', views.Produtos_Carrinho),
+    path('api/carrinhos/<str:pk>/produtos/add/', views.Add_Produto_Carrinho),
+    path('api/carrinhos/<str:pk>/produtos/update/', views.Update_Produto_Carrinho),
+    path('api/carrinhos/<str:pk>/produtos/delete/', views.Delete_Produto_Carrinho),
+
+    # URL do Painel Administrativo
     path("admin/", admin.site.urls)
+
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -4,35 +4,44 @@ from authemail.admin import EmailUserAdmin
 
 from .models import *
 
+# Configuração de Títulos da Página de Administração
 admin.AdminSite.index_title = "Administração do Mercado Moderno"
 admin.AdminSite.site_title = "Admin"
 
 class ProdutoAdmin(admin.ModelAdmin):
+    """Configuração do painel de administração para o modelo Produto"""
     list_display = ["nome", "preco", "estoque", "vendas"]
     search_fields = ["nome", "descricao"]
 
 class ProdutoInline(admin.TabularInline):
+    """Configuração do painel de administração para mostrar os Produtos na página de edição dos Carrinhos"""
     model = Carrinho.produtos.through
     extra = 3
 
 class CarrinhoAdmin(admin.ModelAdmin):
+    """Configuração do painel de administração para o modelo Carrinho"""
     list_display = ["usuario", "quantidade_produtos"]
     inlines = [ProdutoInline]
     
-class ItemCarrinhoInline(admin.StackedInline):
-      model = ItemCarrinho
+# class ItemCarrinhoInline(admin.StackedInline):
+#     """Configuração do painel de administração para mostrar o modelo ItemCarrinho inline nos Carrinhos"""
+#     model = ItemCarrinho
       
 class UsuarioAdmin(EmailUserAdmin):
-	fieldsets = (
-		(None, {'fields': ('email', 'password')}),
-		('Informações Pessoais', {'fields': ('first_name', 'last_name', 'data_nascimento')}),
-		('Permissões', {'fields': ('is_active', 'is_staff', 'is_superuser', 'is_verified')}),
-	)
+    """Configuração do painel de administração para o modelo Usuario"""
+    fieldsets = (
+        (None, {'fields': ('email', 'password')}),
+        ('Informações Pessoais', {'fields': ('first_name', 'last_name', 'data_nascimento')}),
+        ('Permissões', {'fields': ('is_active', 'is_staff', 'is_superuser', 'is_verified')}),
+    )
         
-
+# Desregistrar o modelo User Padrão do Django e registrar o modelo de Usuario Personalizado
 admin.site.unregister(get_user_model())
 admin.site.register(get_user_model(), UsuarioAdmin)
+
+# Registrar os demais modelos no painel de administração
 admin.site.register(Produto, ProdutoAdmin)
-admin.site.register(Categoria)
 admin.site.register(Carrinho, CarrinhoAdmin)
-admin.site.register(Compra)
+
+# admin.site.register(Categoria)
+# admin.site.register(Compra)

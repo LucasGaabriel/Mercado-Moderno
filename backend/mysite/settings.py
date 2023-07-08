@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'mercado_moderno.apps.MercadoModernoConfig',
     'authemail',
     'corsheaders',
+    'drf_yasg',
 ]
 
 AUTH_USER_MODEL = 'mercado_moderno.Usuario'
