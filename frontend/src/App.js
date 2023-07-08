@@ -1,8 +1,10 @@
 import './App.css';
-import { BrowserRouter as Router, Routes, Route} from 'react-router-dom'
-import { Navbar} from "./components/navbar"
-import {Shop} from "./pages/shop/shop"
-import {Cart} from "./pages/cart/cart"
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import { Navbar } from "./components/navbar"
+import { Shop } from "./pages/shop/shop"
+import { Cart } from "./pages/cart/cart"
+import { Login } from "./pages/login/Login"
+import { Register } from "./pages/register/Register"
 import { ShopContextProvider } from './context/shop-context';
 
 function App() {
@@ -14,6 +16,8 @@ function App() {
           <Routes>
             <Route path="/" element={<Shop />} />
             <Route path="/cart" element={<Cart />}  /> 
+            <Route path="/login" element={<Login />}  /> 
+            <Route path="/register" element={<Register />}  /> 
           </Routes>
         </Router>
       </ShopContextProvider>

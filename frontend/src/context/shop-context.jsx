@@ -12,7 +12,7 @@ export const ShopContextProvider = (props) => {
     
     let cart = {};
     useEffect(() => {
-        axios.get("http://127.0.0.1:8000/api/produtos/").then((response) => {
+        axios.get("http://127.0.0.1:8080/api/produtos/").then((response) => {
                 setProducts(response.data);
                 response.data.map((item) => cart[item.id] = 0);
                 setCartItems(cart);
@@ -51,7 +51,7 @@ export const ShopContextProvider = (props) => {
         try { 
             products.map((p) => {
                 if(cartItems[p.id] > 0) {
-                    axios.patch(`http://127.0.0.1:8000/api/produtos/${p.id}/`, { 
+                    axios.patch(`http://127.0.0.1:8080/api/produtos/${p.id}/`, { 
                         estoque: p.estoque - cartItems[p.id],
                         vendas: p.vendas + cartItems[p.id]
                     });
