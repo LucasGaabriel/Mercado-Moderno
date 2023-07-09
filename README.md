@@ -1,7 +1,5 @@
 # :shopping: Mercado Moderno
-### :hammer_and_wrench: Em Desenvolvimento!
 
-## :bookmark_tabs: Sobre o Mercado Moderno
 O Mercado Moderno é uma aplicação Web de um mercado online, onde é possível configurar uma loja e cadastrar produtos para que outras pessoas possam fazer suas compras online.
 Este é um projeto desenvolvido para a disciplina de Projeto Integrado, da Universidade Federal do Espírito Santo (<a href="ufes.br">UFES</a>)
 
@@ -13,8 +11,8 @@ Essas são as instruções iniciais para configurar o projeto localmente.
 
 Essas são as ferramentas necessárias que você vai precisar ter instaladas para rodar o projeto:
 * python - v3.10
-* node.js -
-* npm -
+* node.js - v18.16.1
+* npm - v9.7.2
 
 ## :computer: Instalação
 
@@ -67,6 +65,10 @@ Rode a aplicação:
 python manage.py runserver
 ```
 
+Por padrão, o servidor é inicializado na URL `http://localhost:8000`
+
+É possível alterar a porta executando o comando: `python manage.py runserver <porta>`, substituindo no comando a porta desejada.
+
 --------------------------
 
 ### Inicializando o Frontend
@@ -75,6 +77,34 @@ Entre no diretório do frontend:
 ```bash
 cd frontend
 ```
+
+Instale todas as dependências do projeto:
+```bash
+npm install
+```
+
+Inicie o servidor de desenvolvimento:
+```bash
+npm start
+```
+
+Esse comando iniciará o servidor e abrirá automaticamente uma página no navegador com o projeto React em execução.
+
+Caso a página não abra automaticamente, é possível acessá-la pela URL `http://localhost:3000`
+
+
+## :page_facing_up: Documentação das APIs utilizadas no Backend
+
+Esta seção descreve as URLs relacionadas à documentação automática das APIs usando a biblioteca drf-yasg.
+
+- A URL `swagger<format>/` retorna o esquema JSON da API, onde `<format>` pode ser substituído por um formato desejado, como `json` ou `yaml`. Essa URL pode ser usada para acessar o esquema JSON da API diretamente.
+
+- A URL `swagger/` exibe a interface do Swagger UI, uma interface gráfica interativa para explorar e testar as APIs. Nela, você pode explorar os endpoints, enviar requisições e visualizar as respostas.
+
+- A URL `redoc/` exibe a interface do ReDoc, outra interface gráfica para visualização e interação com a documentação da API. O ReDoc é uma alternativa moderna e de fácil leitura para o Swagger UI.
+
+Para acessar a documentação, rode o servidor e abra-o no navegador utilizando as URLs acima.
+
 
 ## :closed_lock_with_key: Licença
 
