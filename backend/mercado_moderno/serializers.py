@@ -52,3 +52,14 @@ class CarrinhoSerializer(serializers.ModelSerializer):
         model = Carrinho
         fields = '__all__'
 
+class CompraSerializer(serializers.ModelSerializer):
+    """
+    Serializer para o modelo Compra.
+
+    Campos:
+        produtos: Produtos da compra
+        valor: Valor total da compra
+    """
+    class Meta:
+        model = Compra
+        fields = ('produtos', 'valor')

@@ -20,12 +20,7 @@ class Produto(models.Model):
             bool: True se o estoque for maior que zero, False caso contrário.
         """
         return True if self.estoque > 0 else False
-    
 
-# class Categoria(models.Model):
-#     Nome = models.CharField(max_length=50)
-#     produtos = models.ManyToManyField(to=Produto)
-    
 
 class Usuario(EmailAbstractUser):
     """Modelo personalizado para representar um usuário."""
@@ -57,8 +52,8 @@ class Carrinho(models.Model):
             int: A quantidade total de produtos no carrinho.
         """
         total = 0
-        itens_carrinho = ItemCarrinho.objects.filter(carrinho=self)
-        for item in itens_carrinho:
+        items_carrinho = ItemCarrinho.objects.filter(carrinho=self)
+        for item in items_carrinho:
             total += item.quantidade
         return total
     
@@ -70,8 +65,28 @@ class ItemCarrinho(models.Model):
     quantidade = models.PositiveIntegerField(default=1)
 
 
-# class Compra(models.Model):
-#     usuario = models.ForeignKey(to=Usuario, on_delete=models.CASCADE)
-#     produtos = models.ManyToManyField(to=Produto)
-#     data = models.DateTimeField(auto_now=True)
-#     valor = models.DecimalField(max_digits=10, decimal_places=2)
+class Compra(models.Model):
+    """Modelo para armazenar cada compra feita por um determinado usuário"""
+    usuario = models.ForeignKey(to=Usuario, on_delete=models.CASCADE)
+    produtos = models.ManyToManyField(to=Produto, through='ItemCompra')
+    data = models.DateTimeField(auto_now_add=True)
+    valor = models.DecimalField(max_digits=10, decimal_places=2)
+    
+    def quantidade_produtos(self):
+        """Calcula a quantidade total de produtos da Compra.
+
+        Returns:
+            int: A quantidade total de produtos da compra.
+        """
+        total = 0
+        items_compra = ItemCompra.objects.filter(compra=self)
+        for item in items_compra:
+            total += item.quantidade
+        return total
+
+
+class ItemCompra(models.Model):
+    """Modelo para armazenar informações de quantidade de cada produto da Compra"""
+    compra = models.ForeignKey(Compra, on_delete=models.CASCADE)
+    produto = models.ForeignKey(Produto, on_delete=models.PROTECT)
+    quantidade = models.PositiveIntegerField(default=1)

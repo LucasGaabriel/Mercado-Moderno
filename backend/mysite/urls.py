@@ -62,8 +62,11 @@ urlpatterns = [
     path('api/carrinhos/<str:pk>/produtos/add/', views.Add_Produto_Carrinho),
     path('api/carrinhos/<str:pk>/produtos/update/', views.Update_Produto_Carrinho),
     path('api/carrinhos/<str:pk>/produtos/delete/', views.Delete_Produto_Carrinho),
+    
+    # URLs referente as compras do Usuario
+    path('api/compras/<str:pk>/save', views.Salvar_Compra),
 
     # URL do Painel Administrativo
-    path("admin/", admin.site.urls)
+    path("admin/", admin.site.urls),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

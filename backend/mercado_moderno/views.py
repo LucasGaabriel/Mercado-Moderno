@@ -1,6 +1,6 @@
 from django.http import JsonResponse
 from django.shortcuts import render, get_object_or_404
-from requests import Response
+from rest_framework.response import Response
 from rest_framework import viewsets
 from rest_framework.decorators import api_view
 from .serializers import *
@@ -61,7 +61,7 @@ def Add_Produto_Carrinho(request, pk):
     item_carrinho.save()
 
     serializer = ItemCarrinhoSerializer(item_carrinho)
-    return Response(serializer.data)
+    return Response(data=serializer.data)
 
 @api_view(['PUT'])
 def Update_Produto_Carrinho(request, pk):
@@ -85,7 +85,7 @@ def Update_Produto_Carrinho(request, pk):
     item_carrinho.save()
 
     serializer = ItemCarrinhoSerializer(item_carrinho)
-    return Response(serializer.data)
+    return Response(data=serializer.data)
 
 @api_view(['DELETE'])
 def Delete_Produto_Carrinho(request, pk):
@@ -107,3 +107,34 @@ def Delete_Produto_Carrinho(request, pk):
     item_carrinho.delete()
 
     return Response({'message': 'Produto excluído do carrinho com sucesso!'})
+
+@api_view(['POST'])
+def Salvar_Compra(request, pk):
+    """
+    View para salvar uma compra do usuário com id=pk.
+
+    Args:
+        request: A requisição HTTP recebida.
+        pk: O id do usuário a salvar a compra.
+
+    Returns:
+        Response: Uma resposta contendo os dados salvos da compra
+    """
+    usuario = get_object_or_404(Usuario, id=pk)
+    carrinho = get_object_or_404(Carrinho, usuario__id=pk)
+
+    produtos_carrinho = ItemCarrinho.objects.filter(carrinho=carrinho)
+    compra = Compra.objects.create(usuario=usuario, valor=carrinho.valor_total())
+
+    for item_carrinho in produtos_carrinho:
+        ItemCompra.objects.create(compra=compra, produto=item_carrinho.produto, quantidade=item_carrinho.quantidade)
+        
+        # Acrescenta a quantidade de produtos vendidos do produto
+        item_carrinho.produto.vendas += item_carrinho.quantidade
+        item_carrinho.produto.save()
+
+    compra.save()
+    carrinho.produtos.clear()
+
+    serializer = CompraSerializer(compra)
+    return Response(data=serializer.data)

@@ -13,19 +13,26 @@ class ProdutoAdmin(admin.ModelAdmin):
     list_display = ["nome", "preco", "estoque", "vendas"]
     search_fields = ["nome", "descricao"]
 
-class ProdutoInline(admin.TabularInline):
+class ProdutoCarrinhoInline(admin.TabularInline):
     """Configuração do painel de administração para mostrar os Produtos na página de edição dos Carrinhos"""
     model = Carrinho.produtos.through
     extra = 3
 
 class CarrinhoAdmin(admin.ModelAdmin):
     """Configuração do painel de administração para o modelo Carrinho"""
-    list_display = ["usuario", "quantidade_produtos"]
-    inlines = [ProdutoInline]
-    
-# class ItemCarrinhoInline(admin.StackedInline):
-#     """Configuração do painel de administração para mostrar o modelo ItemCarrinho inline nos Carrinhos"""
-#     model = ItemCarrinho
+    list_display = ["usuario", "quantidade_produtos", "valor_total"]
+    inlines = [ProdutoCarrinhoInline]
+
+class ProdutoCompraInline(admin.TabularInline):
+    """Configuração do painel de administração para mostrar os Produtos na página de edição dos Carrinhos"""
+    model = Compra.produtos.through
+    extra = 3
+
+class CompraAdmin(admin.ModelAdmin):
+    """Configuração do painel de administração para o modelo Carrinho"""
+    list_display = ["usuario", "data", "quantidade_produtos", "valor"]
+    inlines = [ProdutoCompraInline]
+
       
 class UsuarioAdmin(EmailUserAdmin):
     """Configuração do painel de administração para o modelo Usuario"""
@@ -42,6 +49,6 @@ admin.site.register(get_user_model(), UsuarioAdmin)
 # Registrar os demais modelos no painel de administração
 admin.site.register(Produto, ProdutoAdmin)
 admin.site.register(Carrinho, CarrinhoAdmin)
+admin.site.register(Compra, CompraAdmin)
 
 # admin.site.register(Categoria)
-# admin.site.register(Compra)
