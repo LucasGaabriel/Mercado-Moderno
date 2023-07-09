@@ -131,6 +131,10 @@ def Salvar_Compra(request, pk):
         
         # Acrescenta a quantidade de produtos vendidos do produto
         item_carrinho.produto.vendas += item_carrinho.quantidade
+        
+        # Decrementa o estoque do produto
+        item_carrinho.produto.estoque -= item_carrinho.quantidade
+
         item_carrinho.produto.save()
 
     compra.save()
