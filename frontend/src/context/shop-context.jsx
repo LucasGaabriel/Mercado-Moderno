@@ -16,7 +16,7 @@ export const ShopContextProvider = (props) => {
                 setProducts(response.data);
                 response.data.map((item) => cart[item.id] = 0);
                 setCartItems(cart);
-        });
+        }).catch((error) => console.log(error));
     }, []);
     //
     const findProduct = (id) => {
@@ -54,7 +54,7 @@ export const ShopContextProvider = (props) => {
                     axios.patch(`http://127.0.0.1:8080/api/produtos/${p.id}/`, { 
                         estoque: p.estoque - cartItems[p.id],
                         vendas: p.vendas + cartItems[p.id]
-                    });
+                    }).catch((error) => console.log(error));
                     p.estoque -= cartItems[p.id];
                     p.vendas += cartItems[p.id];
                     setCartItems((prev) => ({...prev, [p.id]: 0}));
