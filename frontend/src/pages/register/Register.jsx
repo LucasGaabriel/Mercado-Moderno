@@ -27,7 +27,7 @@ export const Register = () => {
     return <div className="formulario">
         <h1>Register</h1>
         <p>Please fill in this form to create an account.</p>
-        <hr />
+        
         <label><b> First Name: </b></label> <br />
         <input 
             type="text" 
