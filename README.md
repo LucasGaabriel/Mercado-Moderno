@@ -28,7 +28,10 @@ Entre no diretório do backend:
 cd backend
 ```
 
-Configure um novo ambiente virtual para isolar as dependências do projeto: 
+---
+
+#### Configurando um Ambiente Virtual (Opcional)
+Crie um novo ambiente virtual para isolar as dependências do projeto: 
 ```bash
 python -m venv venv
 ```
@@ -45,14 +48,11 @@ venv/Scripts/Activate
 
 Para desativar um ambiente virtual, utilize o comando: ```deactivate```
 
+---
+
 Instale as dependências:
 ```bash
 pip install .
-```
-
-Execute as migrações do banco de dados:
-```bash
-python manage.py migrate
 ```
 
 Crie um superusuário para acessar a área administrativa:
@@ -62,12 +62,10 @@ python manage.py createsuperuser
 
 Rode a aplicação:
 ```bash
-python manage.py runserver
+python manage.py runserver 8080
 ```
 
-Por padrão, o servidor é inicializado na URL `http://localhost:8000`
-
-É possível alterar a porta executando o comando: `python manage.py runserver <porta>`, substituindo no comando a porta desejada.
+O servidor será inicializado na URL `http://localhost:8080`
 
 --------------------------
 
@@ -92,6 +90,12 @@ Esse comando iniciará o servidor e abrirá automaticamente uma página no naveg
 
 Caso a página não abra automaticamente, é possível acessá-la pela URL `http://localhost:3000`
 
+## :mag_right: Testes Automatizados
+
+Para rodar os testes e verificar que está tudo funcionando corretamente, entre na pasta do Backend: ```cd backend``` e execute o seguinte comando:
+```bash
+python manage.py test
+```
 
 ## :page_facing_up: Documentação das APIs utilizadas no Backend
 
