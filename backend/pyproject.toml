@@ -7,7 +7,7 @@ readme = "README.md"
 packages = [{include = "mercado_moderno"}]
 
 [tool.poetry.dependencies]
-python = "^3.10"
+python = ">=3.8"
 Django = "^4.2.3"
 djangorestframework = "^3.14.0"
 django-rest-authemail = "^2.1.7"

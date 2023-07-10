@@ -10,7 +10,7 @@ Essas são as instruções iniciais para configurar o projeto localmente.
 ### Pré-requisitos
 
 Essas são as ferramentas necessárias que você vai precisar ter instaladas para rodar o projeto:
-* python - v3.10
+* python - v3.8
 * node.js - v18.16.1
 * npm - v9.7.2
 
