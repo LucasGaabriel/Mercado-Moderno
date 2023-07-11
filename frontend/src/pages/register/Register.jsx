@@ -1,6 +1,7 @@
 import { useState } from "react"
 import axios from "axios";
 import "./Register.css"
+import { useNavigate } from "react-router-dom";
 
 
 export const Register = () => {
@@ -8,6 +9,8 @@ export const Register = () => {
     const [lastName, setLastName] = useState("");
     const [email, setEmail] = useState("");
     const [passwd, setPasswd] = useState("");
+
+    const navigate = useNavigate();
 
     const userRegister = () => {
         const newUser = {
@@ -17,11 +20,10 @@ export const Register = () => {
             last_name: lastName
         }
 
-        console.log(newUser);
-
         axios.post("http://127.0.0.1:8080/api/accounts/signup/", newUser).then((resp) => {
-            console.log(resp);
-        }).catch((error) => console.log(error))
+            alert(`Successful registration`);
+            navigate("/login")
+        }).catch((error) => alert("Erro in registration!"))
     }
 
     return <div className="formulario">

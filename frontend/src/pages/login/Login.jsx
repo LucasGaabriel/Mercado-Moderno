@@ -2,11 +2,14 @@ import { useState, useContext } from "react"
 import { ShopContext } from "../../context/shop-context"
 import axios from "axios"
 import "./Login.css"
+import { useNavigate } from "react-router-dom"
 
 export const Login = () => {
     const [email, setEmail] = useState("");
     const [passwd, setPasswd] = useState("");
-    const {logged, setLogged, setUserId} = useContext(ShopContext);
+    const { setLogged, setUserId } = useContext(ShopContext);
+
+    const navigate = useNavigate()
 
     const userLogin = () => {
         const userData = {
@@ -25,7 +28,9 @@ export const Login = () => {
                 let id = res.data.id;
                 setUserId(id);
                 setLogged(true);
-                console.log(res);
+                
+                alert(`Welcome, ${res.data.first_name}!`);
+                navigate("/")
             })
             .catch((erro) => console.log(`Erro ao buscar dados de usuario com email ${email}`))
         })

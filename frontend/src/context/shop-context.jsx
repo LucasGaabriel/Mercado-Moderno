@@ -17,15 +17,11 @@ export const ShopContextProvider = (props) => {
             setProducts(response.data);
 
             response.data.map((item) => cart[item.id] = 0);
-            console.log(response.data)
-            console.log(cart)
 
             if(logged) {
-                console.log(userId)
                 axios.get(`http://127.0.0.1:8080/api/carrinhos/${userId}/produtos/`)
                 .then((resp) => {
                     resp.data.map((item) => cart[item.produto] = item.quantidade)
-                    console.log(cart)
                 })
                 .catch((erro) => console.log("erro ao tentar"))
             }
@@ -96,6 +92,7 @@ export const ShopContextProvider = (props) => {
                     return p; 
                 })
                 setProducts(products);
+                alert(`successful purchase, thanks for the preference!`)
             })
             .catch((erro) => console.log("Erro ao dar save"))
         } else {
