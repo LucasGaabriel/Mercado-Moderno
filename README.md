@@ -3,6 +3,18 @@
 O Mercado Moderno é uma aplicação Web de um mercado online, onde é possível configurar uma loja e cadastrar produtos para que outras pessoas possam fazer suas compras online.
 Este é um projeto desenvolvido para a disciplina de Projeto Integrado, da Universidade Federal do Espírito Santo (<a href="ufes.br">UFES</a>)
 
+### :hammer: Ferramentas Utilizadas
+
+Essas são algumas das linguagens, ferramentas, frameworks e bibliotecas que utilizamos no desenvolvimento dessa aplicação:
+
+* Python
+* Django
+* Node.js
+* React
+* HTML
+* CSS
+* JavaScript
+
 ## :wrench: Configurações Iniciais
 
 Essas são as instruções iniciais para configurar o projeto localmente. 
@@ -14,7 +26,7 @@ Essas são as ferramentas necessárias que você vai precisar ter instaladas par
 * node.js - v18.16.1
 * npm - v9.7.2
 
-## :computer: Instalação
+## ⚙️ Instalação
 
 Clone o repositório ou faça o download dos arquivos
 ```bash
@@ -89,6 +101,25 @@ npm start
 Esse comando iniciará o servidor e abrirá automaticamente uma página no navegador com o projeto React em execução.
 
 Caso a página não abra automaticamente, é possível acessá-la pela URL `http://localhost:3000`
+
+## :computer: Uso da Aplicação
+
+Aqui estão alguns recursos disponíveis que você pode utilizar na aplicação:
+
+* Cadastro e Login de Usuários
+* Cadastro e Gerenciamento de Produtos
+* Adicionar itens ao Carrinho
+* Fazer compras
+* Visualizar compras realizadas 
+
+![Registro](docs/cadastro.png)
+![Login](docs/login.png)
+![Produtos](docs/produtos.png)
+![Carrinho](docs/carrinho.png)
+![Usuários Cadastrados](docs/usuarios_cadastrados.png)
+![Cadastro de Produtos](docs/cadastro_produtos.png)
+
+OBS: *A aplicação não faz nem gerencia formas de pagamento.*
 
 ## :mag_right: Testes Automatizados
 
