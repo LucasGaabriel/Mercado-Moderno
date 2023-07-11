@@ -11,7 +11,7 @@ class Produto(models.Model):
 
     def __str__(self):
         """Retorna uma representação em string do Produto."""
-        return self.nome
+        return f"{self.nome}/Preco:{self.preco}/Vendas:{self.vendas}/Estoque:{self.vendas}"
     
     def possuiEstoque(self):
         """Verifica se o produto possui estoque disponível.
