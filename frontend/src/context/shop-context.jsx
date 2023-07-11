@@ -16,26 +16,20 @@ export const ShopContextProvider = (props) => {
         .then((response) => {
             setProducts(response.data);
 
+            response.data.map((item) => cart[item.id] = 0);
+            console.log(response.data)
+            console.log(cart)
+
             if(logged) {
                 console.log(userId)
                 axios.get(`http://127.0.0.1:8080/api/carrinhos/${userId}/produtos/`)
-                .then((resp) => console.log(resp))
-                .catch((erro) => console.log("erro ao tentar"))
-                axios.post(`http://127.0.0.1:8080/api/carrinhos/${userId}/produtos/add/`, {
-                    "produto_id": 2,
-                    "quatidade": 20
-                })
                 .then((resp) => {
-                    axios.get(`http://127.0.0.1:8080/api/carrinhos/${userId}/produtos/`)
-                    .then((resp) => {console.log("Olá", resp)})
-                    .catch((erro) => console.log("não get produtos"))
+                    resp.data.map((item) => cart[item.produto] = item.quantidade)
+                    console.log(cart)
                 })
-                .catch((error) => console.log("erro ao postar"));
-                
-            } else {
-                response.data.map((item) => cart[item.id] = 0);
+                .catch((erro) => console.log("erro ao tentar"))
             }
-            
+                
             setCartItems(cart);
         }).catch((error) => console.log(error));
     }, [logged]);
@@ -45,13 +39,27 @@ export const ShopContextProvider = (props) => {
     }
     const addToCart = (itemId) => {
         cartItems[itemId] < findProduct(itemId)?.estoque ?
-            setCartItems((prev) => ({ ...prev, [itemId]: prev[itemId] + 1}))
+            setCartItems((prev) => {
+                if(logged) {
+                    axios.post(`http://localhost:8080/api/carrinhos/${userId}/produtos/add/`, {"produto_id": itemId, "quantidade": prev[itemId] + 1})
+                    .catch((error) => console.log("Erro em addToCart."))
+                }
+                return ({ ...prev, [itemId]: prev[itemId] + 1})
+            })
+
         : 
             alert(`Temos apenas ${cartItems[itemId]} unidades de ${findProduct(itemId)?.nome}!`);
     }
     const removeFromCart = (itemId) => {
-        cartItems[itemId] > 0 &&
-            setCartItems((prev) => ({ ...prev, [itemId]: prev[itemId] - 1}))
+        if(cartItems[itemId] > 0) {
+            setCartItems((prev) => {
+                if(logged) {
+                    axios.post(`http://localhost:8080/api/carrinhos/${userId}/produtos/add/`, {"produto_id": itemId, "quantidade": prev[itemId] - 1})
+                    .catch((error) => console.log("Erro em removeFromCart."))
+                }
+                return ({ ...prev, [itemId]: prev[itemId] - 1})
+            })
+        }
         cartItems[itemId] === 1 &&
             alert(`${findProduct(itemId)?.nome} removido(a) do carrinho`);
     }
@@ -65,26 +73,33 @@ export const ShopContextProvider = (props) => {
         else if(amount < 0)
             amount = 0;
             
-        setCartItems((prev) => ({ ...prev, [itemId]: amount}))
+        setCartItems((prev) => {
+            if(logged) {
+                axios.post(`http://localhost:8080/api/carrinhos/${userId}/produtos/add/`, {"produto_id": itemId, "quantidade": amount})
+                .catch((error) => console.log("Erro em removeFromCart."))
+            }
+            return ({ ...prev, [itemId]: amount})
+        })
     };
     
     const checkout = async () => {
-        try { 
-            products.map((p) => {
-                if(cartItems[p.id] > 0) {
-                    axios.patch(`http://127.0.0.1:8080/api/produtos/${p.id}/`, { 
-                        estoque: p.estoque - cartItems[p.id],
-                        vendas: p.vendas + cartItems[p.id]
-                    }).catch((error) => console.log(error));
-                    p.estoque -= cartItems[p.id];
-                    p.vendas += cartItems[p.id];
-                    setCartItems((prev) => ({...prev, [p.id]: 0}));
-                }  
+        if(logged) {
+            axios.post(`http://127.0.0.1:8080/api/compras/${userId}/save`)
+            .then((resp) => {
+                console.log(resp);
+                products.map((p) => {
+                    if(cartItems[p.id] > 0 && p.estoque - cartItems[p.id] >= 0) {
+                        p.estoque -= cartItems[p.id];
+                        p.vendas += cartItems[p.id];
+                        setCartItems((prev) => ({...prev, [p.id]: 0}));
+                    }
+                    return p; 
+                })
+                setProducts(products);
             })
-            
-            setProducts(products);
-        } catch (error) {
-            console.error(error);
+            .catch((erro) => console.log("Erro ao dar save"))
+        } else {
+            alert("Só é possível dar checkout logado");
         }
     }
 
