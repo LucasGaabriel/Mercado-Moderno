@@ -17,13 +17,20 @@ export const ShopContextProvider = (props) => {
             setProducts(response.data);
 
             if(logged) {
-                axios.post(`http://localhost:8080/api/carrinhos/${userId}/produtos/add/`, {"produto_id": 2, "quantidade": 20})
+                console.log(userId)
+                axios.get(`http://127.0.0.1:8080/api/carrinhos/${userId}/produtos/`)
+                .then((resp) => console.log(resp))
+                .catch((erro) => console.log("erro ao tentar"))
+                axios.post(`http://127.0.0.1:8080/api/carrinhos/${userId}/produtos/add/`, {
+                    "produto_id": 2,
+                    "quatidade": 20
+                })
                 .then((resp) => {
-                    axios.get(`http://localhost:8080/api/carrinhos/${userId}/produtos/`)
+                    axios.get(`http://127.0.0.1:8080/api/carrinhos/${userId}/produtos/`)
                     .then((resp) => {console.log("Olá", resp)})
                     .catch((erro) => console.log("não get produtos"))
                 })
-                .catch((error) => console.log("não post produto"));
+                .catch((error) => console.log("erro ao postar"));
                 
             } else {
                 response.data.map((item) => cart[item.id] = 0);
