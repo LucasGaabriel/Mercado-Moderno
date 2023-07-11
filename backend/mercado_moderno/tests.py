@@ -13,7 +13,7 @@ class AccountsTestCase(APITestCase):
     logout_url = "/api/accounts/logout/"
 
     def test_register(self):
-        """"Testa se registro está funcionando"""
+        """Testa se registro está funcionando"""
         data = {
             "email": "user@example-email.com",
             "password": "verysecret",
@@ -80,7 +80,7 @@ class AccountsTestCase(APITestCase):
         token = json.loads(response.content)['token']
 
         headers = {
-        'Authorization': f'Token {token}'
+            'Authorization': f'Token {token}'
         }
 
         response = self.client.get(self.logout_url, headers=headers, follow=True)
@@ -99,9 +99,10 @@ class ProdutoModelTests(TestCase):
         self.assertFalse(p.possuiEstoque())
 
 
-class CarrinhoModelTests(TestCase):
+class CarrinhoModelTests(APITestCase):
     """Classe de teste para ações realizadas no carrinho"""
     def test_preco_total(self):
+        """Testa se o preço total do carrinho está sendo calculado corretamente"""
         user = Usuario(email="teste@gmail.com"); user.save()
 
         p1 = Produto(preco=10); p1.save()
@@ -117,3 +118,60 @@ class CarrinhoModelTests(TestCase):
         # => Total=$70
 
         self.assertEqual(70, c.valor_total())
+
+    def test_add_produto_carrinho(self):
+        user = Usuario(email="teste@gmail.com"); user.save()
+        id = user.pk
+
+        p1 = Produto(preco=10); p1.save()
+        p2 = Produto(preco=20); p2.save()
+
+        dado1 = {
+            "produto_id": p1.pk,
+            "quantidade": 3
+        }
+
+        dado2 = {
+            "produto_id": p2.pk,
+            "quantidade": 2
+        }
+        
+        response = self.client.post(f"/api/carrinhos/{id}/produtos/add/", data=dado1)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+        response = self.client.post(f"/api/carrinhos/{id}/produtos/add/", data=dado2)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    def test_quantidade_produtos_apos_post(self):
+
+        user = Usuario(email="teste@gmail.com"); user.save()
+        id = user.pk
+
+        p1 = Produto(preco=10); p1.save()
+        p2 = Produto(preco=20); p2.save()
+
+        dado1 = {
+            "produto_id": p1.pk,
+            "quantidade": 3
+        }
+
+        dado2 = {
+            "produto_id": p2.pk,
+            "quantidade": 2
+        }
+        
+        response = self.client.post(f"/api/carrinhos/{id}/produtos/add/", data=dado1)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+        response = self.client.post(f"/api/carrinhos/{id}/produtos/add/", data=dado2)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+        carrinho = Carrinho.objects.get(usuario=user)
+        
+        self.assertEqual(carrinho.quantidade_produtos(), 5)
+
+
+
+
+class CompraModelTests(TestCase):
+    pass

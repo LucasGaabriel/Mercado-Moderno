@@ -15,11 +15,30 @@ export const ShopContextProvider = (props) => {
         axios.get("http://127.0.0.1:8080/api/produtos/")
         .then((response) => {
             setProducts(response.data);
-            response.data.map((item) => cart[item.id] = 0);
 
+            if(logged) {
+                console.log(userId)
+                axios.get(`http://127.0.0.1:8080/api/carrinhos/${userId}/produtos/`)
+                .then((resp) => console.log(resp))
+                .catch((erro) => console.log("erro ao tentar"))
+                axios.post(`http://127.0.0.1:8080/api/carrinhos/${userId}/produtos/add/`, {
+                    "produto_id": 2,
+                    "quatidade": 20
+                })
+                .then((resp) => {
+                    axios.get(`http://127.0.0.1:8080/api/carrinhos/${userId}/produtos/`)
+                    .then((resp) => {console.log("Olá", resp)})
+                    .catch((erro) => console.log("não get produtos"))
+                })
+                .catch((error) => console.log("erro ao postar"));
+                
+            } else {
+                response.data.map((item) => cart[item.id] = 0);
+            }
+            
             setCartItems(cart);
         }).catch((error) => console.log(error));
-    }, []);
+    }, [logged]);
     
     const findProduct = (id) => {
         return products.find((p) => p.id === Number(id))
