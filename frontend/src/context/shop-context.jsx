@@ -82,7 +82,6 @@ export const ShopContextProvider = (props) => {
         if(logged) {
             axios.post(`http://127.0.0.1:8080/api/compras/${userId}/save`)
             .then((resp) => {
-                console.log(resp);
                 products.map((p) => {
                     if(cartItems[p.id] > 0 && p.estoque - cartItems[p.id] >= 0) {
                         p.estoque -= cartItems[p.id];
