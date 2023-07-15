@@ -6,9 +6,6 @@ from rest_framework.decorators import api_view
 from .serializers import *
 from .models import *
 
-# def index(request):
-#     return render(request, "mercado_moderno/index.html")
-
 class ProdutosView(viewsets.ModelViewSet):
     """View para visualização de todos os Produtos"""
     serializer_class = ProdutoSerializer

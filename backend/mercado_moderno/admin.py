@@ -33,7 +33,6 @@ class CompraAdmin(admin.ModelAdmin):
     list_display = ["usuario", "data", "quantidade_produtos", "valor"]
     inlines = [ProdutoCompraInline]
 
-      
 class UsuarioAdmin(EmailUserAdmin):
     """Configuração do painel de administração para o modelo Usuario"""
     fieldsets = (
@@ -50,5 +49,3 @@ admin.site.register(get_user_model(), UsuarioAdmin)
 admin.site.register(Produto, ProdutoAdmin)
 admin.site.register(Carrinho, CarrinhoAdmin)
 admin.site.register(Compra, CompraAdmin)
-
-# admin.site.register(Categoria)

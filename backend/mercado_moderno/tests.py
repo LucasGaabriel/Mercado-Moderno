@@ -120,6 +120,7 @@ class CarrinhoModelTests(APITestCase):
         self.assertEqual(70, c.valor_total())
 
     def test_add_produto_carrinho(self):
+        """Verifica se a API está adicionando os produtos corretamente ao carrinho"""
         user = Usuario(email="teste@gmail.com"); user.save()
         id = user.pk
 
@@ -143,7 +144,7 @@ class CarrinhoModelTests(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def test_quantidade_produtos_apos_post(self):
-
+        """Verifica se a quantidade de itens no carrinho está sendo atualizado corretamente"""
         user = Usuario(email="teste@gmail.com"); user.save()
         id = user.pk
 
@@ -200,6 +201,7 @@ class CompraModelTests(APITestCase):
         self.assertEqual(compra.quantidade_produtos(), 12)
 
     def test_vendas_produto(self):
+        """Verifica se a quantidade de vendas de um produto modifica corretamente ao ser realizada uma compra"""
         user = Usuario(email="teste@gmail.com"); user.save()
         id = user.pk
         carrinho = Carrinho.objects.get(usuario=user)
@@ -237,6 +239,7 @@ class CompraModelTests(APITestCase):
         self.assertEqual(p2.vendas, 7)
 
     def test_compra_limpa_carrinho(self):
+        """Verifica se ao realizar uma compra, o carrinho está sendo limpo corretamente"""
         user = Usuario(email="teste@gmail.com"); user.save()
         id = user.pk
         carrinho = Carrinho.objects.get(usuario=user)
