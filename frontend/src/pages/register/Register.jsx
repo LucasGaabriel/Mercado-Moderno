@@ -3,7 +3,6 @@ import axios from "axios";
 import "./Register.css"
 import { useNavigate } from "react-router-dom";
 
-
 export const Register = () => {
     // State variables for capturing form input values
     const [firstName, setFirstName] = useState("");

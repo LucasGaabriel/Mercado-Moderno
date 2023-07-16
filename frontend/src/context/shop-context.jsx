@@ -15,26 +15,42 @@ export const ShopContextProvider = (props) => {
     let cart = {};
     
     // Fetch products and cart items when the 'logged' 
-    // and fill cart with values.
-    // state changes or the pages have a hard update (f5)
+    // and fill cartItems and products with current values.
     useEffect(() => {
         axios.get("http://127.0.0.1:8080/api/produtos/")
         .then((response) => {
             // Set the products with the fetched data
             setProducts(response.data);
 
-            response.data.map((item) => cart[item.id] = 0);
-
             if(logged) {
+                // Fill the user cart with the user guest cart
+                for(const idItem in cartItems) {
+                    if (cartItems[idItem] > 0) {
+                        axios.post(`http://localhost:8080/api/carrinhos/${userId}/produtos/add/`, {"produto_id": idItem, "quantidade": cartItems[idItem]})
+                        .catch((error) => console.log("Erro em fillUserCart"))
+                    }
+                }
+
+                // Fill cartItems with the user cart
                 axios.get(`http://127.0.0.1:8080/api/carrinhos/${userId}/produtos/`)
                 .then((resp) => {
+                    // User cart
                     resp.data.map((item) => cart[item.produto] = item.quantidade)
+
+                    // Others fill with 0
+                    response.data.map((item) => typeof cart[item.id] === 'undefined' ? cart[item.id] = 0 : cart[item.id]);
+
+                    // Set the cartItems with the cart object
+                    setCartItems(cart);
                 })
                 .catch((erro) => console.log("erro ao tentar"))
+            } else {
+                // Fill the guest cart with 0
+                response.data.map((item) => cart[item.id] = 0 );
+
+                // Set the cartItems with the cart object
+                setCartItems(cart);
             }
-                
-            // Set the cartItems with the cart object
-            setCartItems(cart);
         }).catch((error) => console.log(error));
     }, [logged]);
 
