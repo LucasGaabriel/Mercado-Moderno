@@ -39,7 +39,7 @@ export const Register = () => {
             <label><b> First Name: </b></label> <br />
             <input 
                 type="text" 
-                placeholder="Type your fisrt name" 
+                placeholder="Type your first name" 
                 onChange={(e) => setFirstName(e.target.value)} /> <br />
             <label><b> Last Name: </b></label> <br />
             <input 
