@@ -29,6 +29,7 @@ export const ShopContextProvider = (props) => {
                         axios.post(`http://localhost:8080/api/carrinhos/${userId}/produtos/add/`, {"produto_id": idItem, "quantidade": cartItems[idItem]})
                         .catch((error) => console.log("Erro em fillUserCart"))
                     }
+                    cart[idItem] = cartItems[idItem];
                 }
 
                 // Fill cartItems with the user cart
